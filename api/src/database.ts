@@ -7,7 +7,7 @@ const db: Database = new sqlite3.Database(DB_SOURCE, (err: Error | null) => {
       // Cannot open database
       console.error(err.message);
       throw err;
-    }else{
+    } else {
         console.log('Connected to the SQLite database.');
         db.run(`CREATE TABLE user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
