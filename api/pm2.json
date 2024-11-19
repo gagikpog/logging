@@ -1,0 +1,10 @@
+{
+    "apps": [
+       {
+            "name": "logging",
+            "script": "npm",
+            "args" : "start",
+            "watch": true
+       }
+    ]
+}
