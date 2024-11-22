@@ -27,6 +27,14 @@ export interface ILogData {
     created: string;
 }
 
+export interface IAppData {
+    id: number;
+    name: string;
+    title: string;
+    user: string;
+    created: string;
+}
+
 export interface ILogFilter {
     id?: number;
     app: string;

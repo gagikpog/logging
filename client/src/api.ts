@@ -1,4 +1,4 @@
-import { IAuthResult, IFullUser, ILogData, ILogFilter, IUser } from './interfaces';
+import { IAppData, IAuthResult, IFullUser, ILogData, ILogFilter, IUser } from './interfaces';
 
 function getOriginPath(path: string): string {
     const isDebug = localStorage.getItem('debug') === 'on';
@@ -88,5 +88,46 @@ export function readLogList(filter: ILogFilter): Promise<ILogData[]> {
     }).catch(() => {
         console.error('user get error');
         return [];
+    });
+}
+
+export function readAppsList(): Promise<IAppData[]> {
+    return fetch(getOriginPath('/apps/'), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+    }).then((res) => {
+        return res.json();
+    }).catch(() => {
+        console.error('apps get error');
+        return [];
+    });
+}
+
+export function deleteApp(name: string): Promise<void> {
+    return fetch(getOriginPath('/apps/'), {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            body: JSON.stringify({name})
+        },
+    }).then(() => {}).catch(() => {
+        console.error('apps delete error');
+    });
+}
+
+export function createApp(data: { name: string, title: string }): Promise<void> {
+    return fetch(getOriginPath('/apps/'), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            body: JSON.stringify({data})
+        },
+    }).then(() => {}).catch(() => {
+        console.error('apps create error');
     });
 }

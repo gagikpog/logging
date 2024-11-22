@@ -5,6 +5,7 @@ import Auth from './pages/auth';
 import { Fragment } from 'react';
 import PrivateRoute from './components/privateRoute';
 import { Provider as UserProvider } from './contexts/user';
+import Apps from './pages/apps';
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>}/>
                         <Route path="/auth/" element={ <Auth />}/>
+                        <Route path="/apps/" element={ <Apps />}/>
                     </Routes>
                 </Fragment>
             </Router>
