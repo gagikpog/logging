@@ -1,5 +1,7 @@
 # Examples
 
+### User API
+
 #### Create new user
 ```js
 fetch('/logging/create-user/', {
@@ -48,6 +50,60 @@ fetch('/logging/auth/', {
     console.error('auth error');
 });
 ```
+
+### Apps API
+
+#### Get apps for user
+
+```js
+fetch('/logging/apps/', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+}).then((res) => {
+    return res.json();
+}).catch(() => {
+    console.error('apps get error');
+});
+```
+
+#### Create new app
+
+```js
+fetch('/logging/apps/', {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({ name: 'appName', title: 'appTitle' })
+}).then((res) => {
+    return res.json();
+}).catch(() => {
+    console.error('app create error');
+});
+```
+
+#### Delete app
+
+```js
+fetch('/logging/apps/', {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({ name: 'appName' })
+}).then((res) => {
+    return res.json();
+}).catch(() => {
+    console.error('app delete error');
+});
+```
+
+### Log API
 
 #### Add new log
 ```js
