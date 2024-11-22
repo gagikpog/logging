@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useCallback, useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
@@ -12,11 +12,12 @@ export interface IMenuOptions {
 }
 
 interface IMenuProps {
+    title?: string;
     options: IMenuOptions[];
     onSelect?(option: IMenuOptions): void;
 }
 
-export default function LongMenu({options, onSelect} :IMenuProps) {
+export default function LongMenu({options, onSelect, title} :IMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -29,16 +30,26 @@ export default function LongMenu({options, onSelect} :IMenuProps) {
 
     return (
         <div>
-            <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? 'long-menu' : undefined}
-                aria-expanded={open ? 'true' : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                <MoreVertIcon />
-            </IconButton>
+            {
+                title ?
+                <Button
+                    id="composition-button"
+                    aria-controls={open ? 'composition-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}>
+                        {title}
+                </Button> :
+                <IconButton
+                    aria-label="more"
+                    id="long-button"
+                    aria-controls={open ? 'long-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true" onClick={handleClick}>
+                        <MoreVertIcon />
+                </IconButton>
+            }
+
             <Menu
                 id="long-menu"
                 MenuListProps={{ 'aria-labelledby': 'long-button' }}

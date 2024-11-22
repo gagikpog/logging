@@ -1,17 +1,37 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { ILogData } from '../interfaces';
-import { readLogList } from '../api';
+import { IAppData, ILogData, ILogFilter } from '../interfaces';
+import { readAppsList, readLogList } from '../api';
+import BasicTable, { IColumn } from '../components/table';
+import Filter from '../components/filter';
+
+const columns: IColumn<ILogData>[] = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'app', headerName: 'Application' },
+    { field: 'type', headerName: 'Type' },
+    { field: 'message', headerName: 'Message' },
+    { field: 'created', headerName: 'Date' },
+];
 
 export default function Logs() {
 
-    const [logs, setLogs] = useState<ILogData[]>([])
+    const [apps, setApps] = useState<IAppData[]>([]);
+    const [logs, setLogs] = useState<ILogData[]>([]);
+    const [filter, setFilter] = useState<ILogFilter>({app: '', dateFrom: '', dateTo: '', types: []});
 
     useEffect(() => {
-        readLogList({ app: 'corners' }).then((data) => {
-            setLogs(data);
+        readAppsList().then((apps) => {
+            setApps(apps);
+            const currentAppName = apps[0]?.name || '';
+            setFilter((f) => ({...f, app: currentAppName}));
         });
     }, []);
+
+    useEffect(() => {
+        if (filter.app) {
+            readLogList(filter).then((data) => setLogs(data));
+        }
+    }, [filter]);
 
     return (
         <Box
@@ -20,17 +40,11 @@ export default function Logs() {
               margin: 2,
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
             }}
           >
-            <Typography component="h1" variant="h5" align="center">
-                Logging view page
-            </Typography>
-            {
-                logs.map((row) => {
-                    return <div key={row.id}>{row.message}</div>
-                })
-            }
+            <Typography component="h1" variant="h5" align="center">Logging view page</Typography>
+            <Filter filter={filter} apps={apps} />
+            <BasicTable columns={columns} rows={logs}/>
         </Box>
     );
 }
