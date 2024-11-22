@@ -24,6 +24,7 @@ export interface ILogData {
     message: string;
     type: LogType;
     app: string;
+    user: string;
     created: string;
 }
 

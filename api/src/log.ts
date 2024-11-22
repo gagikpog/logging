@@ -1,11 +1,12 @@
 import { ILogData, ILogFilter, LogType } from './interfaces';
 
 export function getLogData(data: ILogData): ILogData | null {
-    return isValidLogType(data.type) && Boolean(data.message) && isValidApplication(data.app) ? {
+    return isValidLogType(data.type) && Boolean(data.message) && Boolean(data.user) && isValidApplication(data.app) ? {
         id: data.id,
         message: data.message,
         app: data.app,
         created: data.created,
+        user: data.user,
         type: data.type,
     } : null;
 }

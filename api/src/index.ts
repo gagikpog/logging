@@ -6,13 +6,14 @@ import { authenticateToken, generateAccessToken } from './jwt';
 import { ILogData, IUserData, RequestCustom } from './interfaces';
 import { getLogData, getLogFilter } from './log';
 import { encodePassword, validatePassword } from './hashing';
+import { readUser } from './query';
 
 dotenv.config();
 
 const app: Express = express();
 app.use(express.urlencoded());
 app.use(express.json());
-app.use(cors({ origin: '*'}));
+app.use(cors({ origin: '*' }));
 
 const port = process.env.PORT || 3000;
 
@@ -27,29 +28,21 @@ app.get('/logging/', (_req: Request, res: Response) => {
 app.get('/logging/user/', authenticateToken, (req: RequestCustom, res: Response) => {
     const username = req.username;
     if (!username) {
-        res.status(400).send('');
+        res.status(400).send({ error: 'user not found' });
         return;
     }
-
-    const sql = 'SELECT * FROM user WHERE username = ?';
-    const params = [username];
-    db.get<IUserData>(sql, params, (err, row) => {
-
-        if (err) {
-            return res.status(400).json({'error': err.message});
-        }
-
-        if (!row) {
-            return res.status(400).json({'error': 'user not found'});
-        }
+    readUser(username, db).then((userData) => {
         res.json({
-            'message':'success',
-            'data': {
-                username: row.username,
-                name: row.name,
-                email: row.email
+            message: 'success',
+            data: {
+                id: userData.id,
+                username: userData.username,
+                name: userData.name,
+                email: userData.email
             }
         });
+    }).catch((err) => {
+        res.status(400).json({ 'error': err.message })
     });
 });
 
@@ -57,20 +50,24 @@ app.post('/logging/add/', (req: Request, res: Response): void => {
     const data = getLogData(req.body);
 
     if (data) {
-        const insert = 'INSERT INTO log (message, type, app) VALUES (?,?,?)';
-        db.run(insert, [data.message, data.type, data.app]);
-        res.status(200).json({ error: false });
+        readUser(data.user, db).then((userData) => {
+            const insert = 'INSERT INTO log (message, type, app, user) VALUES (?,?,?,?)';
+            db.run(insert, [data.message, data.type, data.app, userData.username]);
+            res.status(200).json({ error: '' });
+        }).catch((err: Error) => {
+            res.status(400).send({ error: err.message });
+        });
     } else {
-        res.status(400).send('invalid data');
+        res.status(400).send({ error: 'invalid data' });
     }
 });
 
-app.post('/logging/list/', authenticateToken, (req: Request, res: Response): void => {
+app.post('/logging/list/', authenticateToken, (req: RequestCustom, res: Response): void => {
     const data = getLogFilter(req.body);
 
     if (data) {
-        const wheres = ['app = ?'];
-        const wheresData: (string | number)[] = [data.app];
+        const wheres = ['app = ?', 'user = ?'];
+        const wheresData: (string | number)[] = [data.app, req.username || 'NULL'];
 
         if (data.id) {
             wheres.push('id = ?');
@@ -80,6 +77,8 @@ app.post('/logging/list/', authenticateToken, (req: Request, res: Response): voi
         if (data.types?.length) {
             wheres.push(`(${data.types.map((type) => `type = "${type}"`).join(' OR ')})`);
         }
+
+        // TODO: suggest filters data.dateFrom and data.dateTo
 
         const sql = `SELECT * FROM log WHERE ${wheres.join(' AND ')}`;
 
@@ -110,7 +109,7 @@ app.post('/logging/create-user/', (req: Request, res: Response): void => {
         res.status(400).json({ error: 'name, username, email and password required' });
         return;
     }
-    
+
     const sql = 'SELECT * FROM user WHERE username = ? OR email = ?';
     db.get(sql, [username, email], (err, row) => {
         if (err) {
@@ -138,33 +137,24 @@ app.post('/logging/create-user/', (req: Request, res: Response): void => {
 });
 
 app.post('/logging/auth/', (req: Request, res: Response): void => {
-    const { username, password, email } = req.body;
-    if (!(username || email) || !password) {
+    const { username, password } = req.body;
+    if (!(username) || !password) {
         // TODO: fix validation
-        res.status(400).json({ error: 'username or email and password required' });
+        res.status(400).json({ error: 'username and password required' });
         return;
     }
-    
-    const sql = 'SELECT * FROM user WHERE username = ? OR email = ?';
-    db.get<IUserData>(sql, [username, email], (err, row) => {
-        if (err) {
-            res.status(400).json({ error: err.message });
-            return;
-        }
 
-        if (!row) {
-            res.status(200).json({ error: 'wrong login or password' });
-            return;
-        }
-
-        validatePassword(password, row.password).then((isValid) => {
+    readUser(username, db).then((userData: IUserData): void => {
+        validatePassword(password, userData.password).then((isValid) => {
             if (isValid) {
-                const token = generateAccessToken({ username });
+                const token = generateAccessToken({ username: userData.username });
                 res.status(200).json({ token });
             } else {
                 res.status(200).json({ error: 'wrong login or password' });
             }
         });
+    }).catch(() => {
+        res.status(200).json({ error: 'wrong login or password' });
     });
 });
 

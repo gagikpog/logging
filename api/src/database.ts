@@ -28,6 +28,7 @@ const db: Database = new sqlite3.Database(DB_SOURCE, (err: Error | null) => {
             "message" TEXT,
             "type" TEXT,
             "app" TEXT,
+            "user" TEXT,
             "created" TEXT DEFAULT CURRENT_TIMESTAMP
         )`,
         (err: Error) => {

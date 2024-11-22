@@ -2,7 +2,7 @@ import { IAuthResult, IFullUser, ILogData, ILogFilter, IUser } from './interface
 
 function getOriginPath(path: string): string {
     const isDebug = localStorage.getItem('debug') === 'on';
-    const host = isDebug ? 'http://localhost:8001/logging' : 'https://gagikpog-api.ru/logging';
+    const host = isDebug ? 'http://localhost:8003/logging' : 'https://gagikpog-api.ru/logging';
     return `${host}${path}`;
 }
 

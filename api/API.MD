@@ -2,7 +2,7 @@
 
 #### Create new user
 ```js
-fetch('/create-user/', {
+fetch('/logging/create-user/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ fetch('/create-user/', {
 
 #### Get current user data
 ```js
-fetch('/user/', {
+fetch('/logging/user/', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ fetch('/user/', {
 
 #### Auth
 ```js
-fetch('/auth/', {
+fetch('/logging/auth/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -51,12 +51,12 @@ fetch('/auth/', {
 
 #### Add new log
 ```js
-fetch('/log/', {
+fetch('/logging/add/', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ app: 'appName', message: 'message', type: 'error' }),
+    body: JSON.stringify({ app: 'appName', message: 'message', type: 'error', user: 'username' }),
 }).then((res) => {
     return res.json();
 }).catch(() => {
@@ -66,7 +66,7 @@ fetch('/log/', {
 
 #### Get log list
 ```js
-fetch('/list/', {
+fetch('/logging/list/', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
