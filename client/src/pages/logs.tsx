@@ -43,7 +43,7 @@ export default function Logs() {
             }}
           >
             <Typography component="h1" variant="h5" align="center">Logging view page</Typography>
-            <Filter filter={filter} apps={apps} />
+            <Filter filter={filter} apps={apps} onSave={setFilter}/>
             <BasicTable columns={columns} rows={logs}/>
         </Box>
     );
