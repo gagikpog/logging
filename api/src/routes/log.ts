@@ -7,7 +7,7 @@ import { getLogData, getLogFilter } from '../log';
 
 export function registerLogsRoute(app: Express, db: Database): void {
     app.post('/logging/add/', (req: Request, res: Response): void => {
-        const data = getLogData(req.body);
+        const data = getLogData(req);
 
         if (data) {
             Promise.all([

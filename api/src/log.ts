@@ -1,6 +1,10 @@
+import { Request } from 'express';
 import { ILogData, ILogFilter, LogType } from './interfaces';
 
-export function getLogData(data: ILogData): ILogData | null {
+export function getLogData(req: Request): ILogData | null {
+    const data = req.body as unknown as ILogData;
+    const ip = req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '';
+
     return isValidLogType(data.type) && Boolean(data.message) && Boolean(data.user) && Boolean(data.app) ? {
         id: data.id,
         message: data.message,
@@ -8,6 +12,7 @@ export function getLogData(data: ILogData): ILogData | null {
         created: data.created,
         user: data.user,
         type: data.type,
+        ip
     } : null;
 }
 

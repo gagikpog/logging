@@ -25,6 +25,7 @@ export interface ILogData {
     type: LogType;
     app: string;
     user: string;
+    ip: string;
     created: string;
 }
 

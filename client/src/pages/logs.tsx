@@ -11,6 +11,7 @@ const columns: IColumn<ILogData>[] = [
     { field: 'type', headerName: 'Type' },
     { field: 'message', headerName: 'Message' },
     { field: 'created', headerName: 'Date' },
+    { field: 'ip', headerName: 'IP address' },
 ];
 
 export default function Logs() {
