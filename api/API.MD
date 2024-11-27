@@ -128,7 +128,7 @@ fetch('/logging/list/', {
         'Content-Type': 'application/json',
          Authorization: `Bearer ${localStorage.getItem('token')}`
     },
-    body: JSON.stringify({ app: 'appName', types: ['error', 'waring'] }),
+    body: JSON.stringify({ app: 'appName', types: ['error', 'warning'] }),
 }).then((res) => {
     return res.json();
 }).catch((err) => {

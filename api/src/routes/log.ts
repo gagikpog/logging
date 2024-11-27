@@ -16,8 +16,8 @@ export function registerLogsRoute(app: Express, db: Database): void {
             ]).then(([apps, userData]) => {
                 const currentApp = apps.find((a) => a.name === data.app);
                 if (currentApp) {
-                    const insert = 'INSERT INTO log (message, type, app, user) VALUES (?,?,?,?)';
-                    db.run(insert, [data.message, data.type, currentApp.name, userData.username]);
+                    const insert = 'INSERT INTO log (message, type, ip, app, user) VALUES (?,?,?,?,?)';
+                    db.run(insert, [data.message, data.type, data.ip, currentApp.name, userData.username]);
                     res.status(200).json({ error: '' });
                 } else {
                     res.status(400).send({ error: `unknown app "${data.app}"` });
