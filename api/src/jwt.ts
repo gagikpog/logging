@@ -11,7 +11,7 @@ export function generateAccessToken(payload: IPayload) {
         console.error(`TOKEN_SECRET is "${process.env.TOKEN_SECRET}"`);
     }
 
-    return sign(payload, process.env.TOKEN_SECRET || '', { expiresIn: '1800s' });
+    return sign(payload, process.env.TOKEN_SECRET || '', { expiresIn: '90d' });
 }
 
 export function authenticateToken(req: RequestCustom, res: Response, next: NextFunction): void {
