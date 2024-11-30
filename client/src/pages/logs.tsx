@@ -6,11 +6,9 @@ import BasicTable, { IColumn } from '../components/table';
 import Filter from '../components/filter';
 
 const columns: IColumn<ILogData>[] = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'app', headerName: 'Application' },
+    { field: 'created', headerName: 'Date' },
     { field: 'type', headerName: 'Type' },
     { field: 'message', headerName: 'Message' },
-    { field: 'created', headerName: 'Date' },
     { field: 'ip', headerName: 'IP address' },
 ];
 

@@ -48,7 +48,7 @@ export function registerLogsRoute(app: Express, db: Database): void {
 
             // TODO: suggest filters data.dateFrom and data.dateTo
 
-            const sql = `SELECT * FROM log WHERE ${wheres.join(' AND ')}`;
+            const sql = `SELECT * FROM log WHERE ${wheres.join(' AND ')} ORDER BY id DESC`;
 
             db.all<ILogData[]>(sql, wheresData, (err, rows) => {
                 if (err) {
