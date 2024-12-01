@@ -95,11 +95,17 @@ export default function Filter({filter, apps, onSave}: {filter: ILogFilter, apps
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const currentApp = useMemo(() => apps.find((app) => app.name === filter.app), [apps, filter]);
+
     return (
         <div>
             <IconButton onClick={handleClickOpen}>
                 <FilterAltIcon />
             </IconButton>
+            {currentApp?.title}
+            {
+                filter.types?.length ? <> / {filter.types?.join(', ')}</> : ''
+            }
             {
                 open ? <SimpleDialog onClose={handleClose} apps={apps} filter={filter} onSave={onSave}/> : null
             }
