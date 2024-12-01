@@ -27,7 +27,7 @@ export default function Nav() {
 
     const onNavigate = (page: string): void => {
         handleCloseNavMenu();
-        navigate(page);
+        navigate(`/${page}/`);
     };
 
     return (
@@ -64,8 +64,8 @@ export default function Nav() {
                             sx={{ display: { xs: 'block', md: 'none' } }}
                             >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={() => onNavigate(page)}>
-                                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                                <MenuItem key={page} onClick={(e) => { e.preventDefault(); onNavigate(page) }}>
+                                    <Typography component="a" href={`/${page}/`} sx={{ textAlign: 'center', color: 'inherit', textDecoration: 'none' }}>{page}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -77,7 +77,8 @@ export default function Nav() {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={() => onNavigate(page)}
+                                href={`/${page}/`}
+                                onClick={(e) => { e.preventDefault(); onNavigate(page) }}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
