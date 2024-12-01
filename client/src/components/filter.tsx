@@ -78,10 +78,10 @@ function SimpleDialog(props: SimpleDialogProps) {
                     <InputLabel>Application</InputLabel>
                     <LongMenu options={options} title={selectedApp?.title} onSelect={selectedAppChanged}/>
                 </Box>
-                <Box component="div" sx={{display: 'flex', alignItems: 'baseline', gap: 2}}>
+                <Box component="div" sx={{display: 'flex', alignItems: 'baseline', columnGap: 2, flexWrap: 'wrap' }}>
                     <FormControlLabel control={<Checkbox onChange={typeChange} checked={selectedTypes?.has(LogType.Error)}  name="error" />} label="Error" />
-                    <FormControlLabel control={<Checkbox onChange={typeChange} checked={selectedTypes?.has(LogType.Warning)}  name="warning" />} label="Warning" />
                     <FormControlLabel control={<Checkbox onChange={typeChange} checked={selectedTypes?.has(LogType.Log)}  name="log" />} label="Log" />
+                    <FormControlLabel control={<Checkbox onChange={typeChange} checked={selectedTypes?.has(LogType.Warning)}  name="warning" />} label="Warn" />
                     <FormControlLabel control={<Checkbox onChange={typeChange} checked={selectedTypes?.has(LogType.Info)}  name="info" />} label="Info" />
                 </Box>
             </Box>

@@ -31,7 +31,7 @@ export default function Nav() {
     };
 
     return (
-        <AppBar position="static" color="success">
+        <AppBar position="sticky" color="success">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Logo display={{ xs: 'none', md: 'flex' }} />

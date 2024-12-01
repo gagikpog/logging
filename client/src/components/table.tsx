@@ -30,7 +30,7 @@ interface ITableProps<TData extends TItem = TItem> {
 export default function BasicTable<TData extends TItem = TItem>({ rows, columns, actions, onExecuteAction }: ITableProps<TData>) {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 320 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => {
