@@ -4,7 +4,23 @@
             "name": "logging",
             "script": "npm",
             "args" : "start",
-            "watch": true
+            "interpreter": "/root/.local/share/fnm/node-versions/v18.20.5/installation/bin/node",
+            "watch": true,
+            "cwd": "/root/www/logging/api",
+            "ignore_watch": [
+                "node_modules",
+                "logs",
+                ".git"
+            ],
+            "watch_options": {
+                "followSymlinks": false
+            },
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "env_production": {
+                "NODE_ENV": "production"
+            }
        }
     ]
 }
