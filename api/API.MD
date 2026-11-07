@@ -1,10 +1,12 @@
 # Examples
 
+Base URL: `https://api.gagikpog.ru/log`.
+
 ### User API
 
 #### Create new user
 ```js
-fetch('/logging/create-user/', {
+fetch('https://api.gagikpog.ru/log/create-user/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -21,7 +23,7 @@ fetch('/logging/create-user/', {
 
 #### Get current user data
 ```js
-fetch('/logging/user/', {
+fetch('https://api.gagikpog.ru/log/user/', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -36,7 +38,7 @@ fetch('/logging/user/', {
 
 #### Auth
 ```js
-fetch('/logging/auth/', {
+fetch('https://api.gagikpog.ru/log/auth/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -56,7 +58,7 @@ fetch('/logging/auth/', {
 #### Get apps for user
 
 ```js
-fetch('/logging/apps/', {
+fetch('https://api.gagikpog.ru/log/apps/', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -72,7 +74,7 @@ fetch('/logging/apps/', {
 #### Create new app
 
 ```js
-fetch('/logging/apps/', {
+fetch('https://api.gagikpog.ru/log/apps/', {
     method: 'PUT',
     headers: {
         'Content-Type': 'application/json',
@@ -89,7 +91,7 @@ fetch('/logging/apps/', {
 #### Delete app
 
 ```js
-fetch('/logging/apps/', {
+fetch('https://api.gagikpog.ru/log/apps/', {
     method: 'DELETE',
     headers: {
         'Content-Type': 'application/json',
@@ -107,7 +109,7 @@ fetch('/logging/apps/', {
 
 #### Add new log
 ```js
-fetch('/logging/add/', {
+fetch('https://api.gagikpog.ru/log/add/', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -122,7 +124,7 @@ fetch('/logging/add/', {
 
 #### Get log list
 ```js
-fetch('/logging/list/', {
+fetch('https://api.gagikpog.ru/log/list/', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

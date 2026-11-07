@@ -6,7 +6,7 @@ import { ILogData, RequestCustom } from '../interfaces';
 import { getLogData, getLogFilter } from '../log';
 
 export function registerLogsRoute(app: Express, db: Database): void {
-    app.post('/logging/add/', (req: Request, res: Response): void => {
+    app.post('/log/add/', (req: Request, res: Response): void => {
         const data = getLogData(req);
 
         if (data) {
@@ -30,7 +30,7 @@ export function registerLogsRoute(app: Express, db: Database): void {
         }
     });
 
-    app.post('/logging/list/', authenticateToken, (req: RequestCustom, res: Response): void => {
+    app.post('/log/list/', authenticateToken, (req: RequestCustom, res: Response): void => {
         const data = getLogFilter(req.body);
 
         if (data) {

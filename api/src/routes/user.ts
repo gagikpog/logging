@@ -6,7 +6,7 @@ import { readUser } from '../query';
 import { encodePassword, validatePassword } from '../hashing';
 
 export function registerUserRoute(app: Express, db: Database): void {
-    app.get('/logging/user/', authenticateToken, (req: RequestCustom, res: Response) => {
+    app.get('/log/user/', authenticateToken, (req: RequestCustom, res: Response) => {
         const username = req.username;
         if (!username) {
             res.status(400).send({ error: 'user not found' });
@@ -27,7 +27,7 @@ export function registerUserRoute(app: Express, db: Database): void {
         });
     });
 
-    app.post('/logging/create-user/', (req: Request, res: Response): void => {
+    app.post('/log/create-user/', (req: Request, res: Response): void => {
         const { name, username, password, email } = req.body;
         if (!username || !password && !email) {
             // TODO: fix validation
@@ -61,7 +61,7 @@ export function registerUserRoute(app: Express, db: Database): void {
         });
     });
 
-    app.post('/logging/auth/', (req: Request, res: Response): void => {
+    app.post('/log/auth/', (req: Request, res: Response): void => {
         const { username, password } = req.body;
         if (!(username) || !password) {
             // TODO: fix validation

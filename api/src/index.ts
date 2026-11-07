@@ -14,12 +14,13 @@ app.use(express.json());
 app.use(cors({ origin: '*' }));
 
 const port = process.env.PORT || 3000;
+const host = process.env.HOST || '127.0.0.1';
 
-app.listen(port, () => {
+app.listen(Number(port), host, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
-app.get('/logging/', (_req: Request, res: Response) => {
+app.get('/log/', (_req: Request, res: Response) => {
     res.status(200).send('Hello from Logging API');
 });
 

@@ -5,7 +5,7 @@ import { readUserApps } from '../query';
 import { IAppData, RequestCustom } from '../interfaces';
 
 export function registerAppsRoute(app: Express, db: Database): void {
-    app.get('/logging/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
+    app.get('/log/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
         readUserApps(req.username || 'NULL', db).then((rows) => {
             res.status(200).send(rows);
         }).catch((err: Error) => {
@@ -13,7 +13,7 @@ export function registerAppsRoute(app: Express, db: Database): void {
         });
     });
 
-    app.put('/logging/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
+    app.put('/log/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
         const username = req.username || 'NULL';
         const data: IAppData = 'name' in req.body && 'title' in req.body ? req.body : null;
 
@@ -34,7 +34,7 @@ export function registerAppsRoute(app: Express, db: Database): void {
         }
     });
 
-    app.delete('/logging/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
+    app.delete('/log/apps/', authenticateToken, (req: RequestCustom, res: Response): void => {
         const username = req.username || 'NULL';
         const data: IAppData = 'name' in req.body ? req.body : null;
 
