@@ -106,28 +106,25 @@ export function readAppsList(): Promise<IAppData[]> {
     });
 }
 
-export function deleteApp(name: string): Promise<void> {
-    return fetch(getOriginPath('/apps/'), {
-        method: 'DELETE',
+async function changeApp(method: 'PUT' | 'DELETE', data: { name: string; title?: string }): Promise<void> {
+    const response = await fetch(getOriginPath('/apps/'), {
+        method,
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-            body: JSON.stringify({name})
         },
-    }).then(() => {}).catch(() => {
-        console.error('apps delete error');
+        body: JSON.stringify(data),
     });
+    const result: { error?: string } | null = await response.json().catch(() => null);
+    if (!response.ok || result?.error !== '') {
+        throw new Error(result?.error || `Unable to save app changes (HTTP ${response.status})`);
+    }
+}
+
+export function deleteApp(name: string): Promise<void> {
+    return changeApp('DELETE', { name });
 }
 
 export function createApp(data: { name: string, title: string }): Promise<void> {
-    return fetch(getOriginPath('/apps/'), {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            body: JSON.stringify({data})
-        },
-    }).then(() => {}).catch(() => {
-        console.error('apps create error');
-    });
+    return changeApp('PUT', data);
 }
